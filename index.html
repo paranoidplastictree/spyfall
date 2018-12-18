@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Demonstrates the use of Google Cloud Database with a Firebase DB">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spy Fall!</title>
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Spy Fall Online">
+  <meta name="theme-color" content="#303F9F">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Firebase Database Quickstart">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#303F9F">
+
+  <!-- Tile icon for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-navbutton-color" content="#303F9F">
+
+  <!-- Material Design Lite -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue_grey-orange.min.css">
+  <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+  <link rel="stylesheet" href="main.css">
+
+</head>
+    <body>
+        <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+            apiKey: "AIzaSyB0HAn2sq_SU8HTHXEdxHebEyilcDOGNr8",
+            authDomain: "spyfall-a9a96.firebaseapp.com",
+            databaseURL: "https://spyfall-a9a96.firebaseio.com",
+            projectId: "spyfall-a9a96",
+            storageBucket: "spyfall-a9a96.appspot.com",
+            messagingSenderId: "352126093381"
+            };
+            firebase.initializeApp(config);
+        </script>
+div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+
+<!-- Splash screen -->
+<section id="page-splash">
+  <h3 class="logo">Spy Fall!</h3>
+  <div>
+    <button id="sign-in-button" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">account_circle</i> Login</button>
+  </div>
+</section>
+
+<!-- Header section containing logo and menu -->
+<header class="header mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
+
+  <div class="mdl-layout__header-row titlebar">
+    <h3 class="logo">Spy Fall!</h3>
+    <button id="sign-out-button" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect"><i class="material-icons">account_circle</i> Log out</button>
+  </div>
+
+  <!-- Navigation Bar -->
+  <div class="tab mdl-layout__header-row mdl-color--light-blue-600">
+    <div class="mdl-tab">
+      <div id="menu-current-game" class="mdl-layout__tab is-active mdl-button mdl-js-button mdl-js-ripple-effect">
+        <i class="material-icons">new_releases</i> Current Game
+      </div>
+      <div id="menu-games" class="mdl-layout__tab mdl-button mdl-js-button mdl-js-ripple-effect">
+        <i class="material-icons">home</i> Games
+      </div>
+      <button class="mdl-button mdl-js-button mdl-button--fab mdl-color--amber-400 mdl-shadow--4dp mdl-js-ripple-effect" id="add">
+        <i class="material-icons">mode_edit</i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="mdl-layout__content mdl-color--grey-100">
+
+  <!-- Show the add game form -->
+  <section class="mdl-grid content" id="add-game" style="display:none">
+    <div class="mdl-cell mdl-cell--12-col mdl-grid">
+
+        <!-- Card containing the inputs to add a new game -->
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet
+                mdl-cell--6-col-desktop">
+          <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+            <h2 class="mdl-card__title-text">New Game</h2>
+          </div>
+          <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+            <form id="game-form" action="#">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="new-game-title">
+                <label class="mdl-textfield__label" for="new-game-title">Game title...</label>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea class="mdl-textfield__input" rows="3" id="new-game-type"></textarea>
+                <label class="mdl-textfield__label" for="new-game-type">Game type...</label>
+              </div>
+              <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Add game
+              </button>
+            </form>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Show a list of recent posts -->
+  <section class="mdl-grid content" id="current-game" style="display:none">
+    <div class="games-container mdl-cell mdl-cell--12-col mdl-grid">
+    </div>
+  </section>
+
+  <!-- Show the list of user's posts -->
+  <section class="mdl-grid content" id="games-list" style="display:none">
+    <div class="games-container mdl-cell mdl-cell--12-col mdl-grid">
+    </div>
+  </section>
+
+</main>
+</div>
+
+        <h1>Spy Fall!</h1>
+        <div class="header">
+            <div id="account">
+                <div class="user-info">
+                    <span>User Id of Current user:</span>
+                    <span id="userid"></span>    
+                </div>
+                <div class="button-wrapper">
+                    <button onclick="login()">Login</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="games-wrapper hidden">
+            <div class="col">
+                <form id="message-form" action="#">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="new-post-title">
+                        <label class="mdl-textfield__label" for="new-post-title">Post title...</label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <textarea class="mdl-textfield__input" rows="3" id="new-post-message"></textarea>
+                        <label class="mdl-textfield__label" for="new-post-message">Post message...</label>
+                    </div>
+                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                        Add post
+                    </button>
+                </form>
+                <button id="create-btn" onclick="createGame()">Create a Game</button>
+            </div>
+            <div class="col">
+                <div>The Games!</div>
+                <div id="game-list">
+                    <div class="game">
+                        <div class="title">Game 1</div>
+                        <div class="button-wrapper">
+                            <button onclick="joinGame(1)">Join</button>
+                            <button onclick="removeGame(1)">Remove</button>
+                        </div>
+                    </div>
+                    <div class="game">
+                        <div class="title">Game 2</div>
+                        <div class="button-wrapper">
+                            <button onclick="joinGame(2)">Join</button>
+                            <button onclick="removeGame(2)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="active-game">
+            <div class="game-info">
+                <h3 class="title">Game 1</h3>
+                <div class="game-type">
+                    <label>Game Type:</label>
+                    <div class="game-type">SpyFall 2</div>
+                </div>
+                <div class="player-count-wrapper">
+                    <label>Player Count:</label>
+                    <div class="player-count">3</div>
+                </div>
+                <div class="spy-count-wrapper">
+                    <lable>Spies in this game:</lable>
+                    <div class="spy-count">1</div>
+                </div>
+            </div>
+            <div class="player-card">
+                <div class="location-wrapper">
+                    <label>Location:</label>
+                    <div class="location">Hospital</div>
+                </div>
+                <div class="player-role-wrapper">
+                    <label>Your role:</lable>
+                    <div class="player-role">Orderly</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./scripts/app.js"></script>
+    </body>
+</html>

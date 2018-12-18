@@ -1,0 +1,7 @@
+#account .user-info {display:none;}
+#account .button-wrapper {display:inline-block;}
+
+#account.logged-in .user-info {display:inline-block;}
+#account.logged-in .button-wrapper {display:none;}
+
+.hidden { display: none; }

@@ -1,5 +1,5 @@
     var locations  = {
-        //spyfall 1
+        /*spyfall 1*/
         "airplane":1,
         "bank":1,
         "beach":1,
@@ -27,7 +27,7 @@
         "submarine":1,
         "supermarket":1,
         "university":1,
-        //spyfall 2
+        /*spyfall 2*/
         "amusement_park":2,
         "art_museum":2,
         "candy_factory":2,
